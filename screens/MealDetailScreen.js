@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, Text, View, StyleSheet, Image } from "react-native";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 
-import { MEALS } from "../data/dummy-data";
+import { useSelector } from "react-redux";
+
 import DefaultText from "../components/DefaultText";
 
 const ListItem = (props) => {
@@ -16,9 +17,15 @@ const ListItem = (props) => {
 };
 
 export const MealDetailScreen = ({ navigation }) => {
+  const availableMeals = useSelector((state) => state.meals.meals);
+
   const mealId = navigation.getParam("mealId");
 
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
+
+  // useEffect(() => {
+  //   navigation.setParams({ mealTitle: selectedMeal.title });
+  // }, [selectedMeal]);
 
   return (
     <ScrollView>
@@ -42,9 +49,10 @@ export const MealDetailScreen = ({ navigation }) => {
 
 MealDetailScreen.navigationOptions = (navigatioData) => {
   const mealId = navigatioData.navigation.getParam("mealId");
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  const mealTitle = navigatioData.navigation.getParam("mealTitle");
+
   return {
-    headerTitle: selectedMeal.title,
+    headerTitle: mealTitle,
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item title="Favorite" iconName="ios-star" onPress={() => {}} />
