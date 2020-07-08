@@ -12,6 +12,13 @@ import FavoritesScreen from "../screens/FavoritesScreen";
 import Colors from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 
+const defaultStackNavOptions = {
+  headerStyle: {
+    backgroundColor: Colors.primaryColor,
+  },
+  headerTintColor: "white",
+};
+
 const MealsNavigator = createStackNavigator(
   {
     Categories: CategoriesScreen,
@@ -21,12 +28,17 @@ const MealsNavigator = createStackNavigator(
     MealDetail: MealDetailScreen,
   },
   {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Colors.primaryColor,
-      },
-      headerTintColor: "white",
-    },
+    defaultNavigationOptions: defaultStackNavOptions,
+  }
+);
+
+const FavNavigator = createStackNavigator(
+  {
+    Favorites: FavoritesScreen,
+    MealDetail: MealDetailScreen,
+  },
+  {
+    defaultNavigationOptions: defaultStackNavOptions,
   }
 );
 
@@ -43,7 +55,7 @@ const tabScreenConfig = {
     },
   },
   Favorites: {
-    screen: FavoritesScreen,
+    screen: FavNavigator,
     navigationOptions: {
       tabBarIcon: (tabInfo) => {
         return <Ionicons name="ios-star" size={25} color={tabInfo.tintColor} />;
